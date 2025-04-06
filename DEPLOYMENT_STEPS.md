@@ -1,0 +1,125 @@
+# Yoshi Sound Portfolio - GitHub Pages Deployment Guide
+
+This guide provides step-by-step instructions for downloading the project and deploying it to GitHub Pages.
+
+## Step 1: Download the Project Files
+
+1. In Replit, click on the three dots (**...**) in the Files panel
+2. Select **Download as zip** to download all project files to your computer
+3. Extract the zip file to a folder on your computer
+
+## Step 2: Set Up a GitHub Repository
+
+1. Go to [GitHub](https://github.com/) and sign in (or create an account if you don't have one)
+2. Click the **+** icon in the top-right corner and select **New repository**
+3. Name your repository (e.g., `yoshi-sound-portfolio`)
+4. Keep it public if you want your portfolio to be visible to everyone
+5. Click **Create repository**
+
+## Step 3: Prepare the Project for GitHub Pages
+
+1. Open a terminal/command prompt and navigate to your extracted project folder
+2. Install the project dependencies:
+   ```
+   npm install
+   ```
+3. Run the build script to prepare files for GitHub Pages:
+   ```
+   node build-for-github.js
+   ```
+   This will:
+   - Build the project with the GitHub Pages configuration
+   - Copy necessary files to the `docs` folder
+   - Set up redirects for SPA routing
+
+## Step 4: Set Up Formspree for Form Submissions (Optional)
+
+If you want the contact and tutoring forms to work:
+
+1. Go to [Formspree](https://formspree.io/) and create an account
+2. Create two forms:
+   - One for the Contact form
+   - One for the Tutoring form
+3. Open `client/src/lib/utils.ts` in a code editor
+4. Update the form endpoints with your Formspree IDs:
+   ```javascript
+   const endpoint = formType === 'contact'
+     ? 'https://formspree.io/f/YOUR_CONTACT_FORM_ID'
+     : 'https://formspree.io/f/YOUR_TUTORING_FORM_ID';
+   ```
+5. Save the file and rebuild the project:
+   ```
+   node build-for-github.js
+   ```
+
+## Step 5: Push the Files to GitHub
+
+1. Initialize a Git repository in your project folder:
+   ```
+   git init
+   ```
+
+2. Add all files to the repository:
+   ```
+   git add .
+   ```
+
+3. Commit the files:
+   ```
+   git commit -m "Initial commit"
+   ```
+
+4. Add your GitHub repository as the remote origin:
+   ```
+   git remote add origin https://github.com/YOUR_USERNAME/yoshi-sound-portfolio.git
+   ```
+   (Replace `YOUR_USERNAME` with your GitHub username and `yoshi-sound-portfolio` with your repository name)
+
+5. Push the files to GitHub:
+   ```
+   git push -u origin main
+   ```
+   (If your default branch is named 'master' instead of 'main', use that instead)
+
+## Step 6: Enable GitHub Pages
+
+1. Go to your repository on GitHub
+2. Click on **Settings**
+3. In the left sidebar, click on **Pages**
+4. Under **Build and deployment**:
+   - Set **Source** to **Deploy from a branch**
+   - Set **Branch** to **main** (or master) and folder to **/docs**
+   - Click **Save**
+
+5. Wait a few minutes for GitHub to deploy your site
+6. Your site will be available at: `https://YOUR_USERNAME.github.io/yoshi-sound-portfolio/`
+
+## Troubleshooting
+
+### If audio files aren't playing:
+1. Uncomment the audio file copying section in the `build-for-github.js` script
+2. Run the build script again
+3. Push the updated `docs` folder to GitHub
+
+### If form submissions aren't working:
+1. Double-check your Formspree form IDs in `utils.ts`
+2. Verify that your Formspree account is active
+3. Rebuild and redeploy
+
+### If page routing isn't working:
+1. Verify that the 404.html file is present in the `docs` folder
+2. Check that the SPA routing script in `index.html` is intact
+3. Ensure GitHub Pages is configured to use the `docs` folder
+
+## Maintenance
+
+To update your site after making changes:
+1. Make your changes to the source files
+2. Run the build script again: `node build-for-github.js`
+3. Commit and push changes to GitHub:
+   ```
+   git add .
+   git commit -m "Update website content"
+   git push
+   ```
+4. GitHub Pages will automatically update your site
